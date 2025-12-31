@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
+import type { BadgeProps } from '@/components/ui/badge'
 import { formatNumber, formatPct } from '@/lib/utils/format'
 import { cn } from '@/lib/utils/cn'
 
@@ -96,7 +97,7 @@ export function VolumeAnalysisPage() {
   }, [indexed, rows, filteredVehicles])
 
   const insights = React.useMemo(() => buildInsights(filteredVehicles, series), [filteredVehicles, series])
-  const kpis = React.useMemo(() => buildKpis(filteredVehicles, series, market), [filteredVehicles, series, market])
+  const kpis = React.useMemo<KpiRow[]>(() => buildKpis(filteredVehicles, series, market), [filteredVehicles, series, market])
 
   return (
     <div className="space-y-6">
@@ -315,6 +316,17 @@ export function VolumeAnalysisPage() {
 }
 
 type Insight = { title: string; body: string }
+type KpiRow = {
+  id: string
+  name: string
+  latest: number
+  mom: number
+  yoy: number
+  momLabel: string
+  yoyLabel: string
+  rank: number | '—'
+  kind: NonNullable<BadgeProps['variant']>
+}
 
 function Metric({ label, value, delta }: { label: string; value: string; delta?: number }) {
   const up = typeof delta === 'number' && delta > 0
@@ -389,7 +401,7 @@ function buildInsights(vehicles: any[], series: Record<string, VolumePoint[]>): 
   return insights.slice(0, 4)
 }
 
-function buildKpis(vehicles: any[], series: Record<string, VolumePoint[]>, market: Market) {
+function buildKpis(vehicles: any[], series: Record<string, VolumePoint[]>, market: Market): KpiRow[] {
   // Segment rank approximation: compare against ALL vehicles' latest month in same segment.
   const latestMonth = Object.values(series)[0]?.at(-1)?.month
 

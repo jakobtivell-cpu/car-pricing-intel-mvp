@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
 import { safeLocalStorage } from '@/lib/store/storage'
 
@@ -57,11 +57,7 @@ export const useBasketStore = create<BasketState>()(
     }),
     {
       name: 'aurum-basket',
-      storage: {
-        getItem: (name) => safeLocalStorage().getItem(name),
-        setItem: (name, value) => safeLocalStorage().setItem(name, value),
-        removeItem: (name) => safeLocalStorage().removeItem(name)
-      }
+      storage: createJSONStorage(() => safeLocalStorage())
     }
   )
 )

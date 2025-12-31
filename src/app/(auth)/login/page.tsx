@@ -10,6 +10,14 @@ import { Input } from '@/components/ui/input'
 import { useAuthStore } from '@/lib/store/auth-store'
 
 export default function LoginPage() {
+  return (
+    <React.Suspense fallback={null}>
+      <LoginForm />
+    </React.Suspense>
+  )
+}
+
+function LoginForm() {
   const router = useRouter()
   const params = useSearchParams()
   const next = params.get('next') || '/'

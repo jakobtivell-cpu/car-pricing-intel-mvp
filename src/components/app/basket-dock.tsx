@@ -230,7 +230,7 @@ export function BasketDock({ className, embed }: { className?: string; embed?: b
                         key={v.id}
                         id={v.id}
                         name={`${v.brand} ${v.model}`}
-                        sub={`${v.trim} • ${v.powertrain} • MSRP ${formatCurrency(v.msrp, market)}`}
+                        sub={`${v.trim} • ${v.powertrain} • MSRP ${formatCurrency(v.pricing[market].msrp, market)}`}
                         badges={[v.powertrain, v.bodyType, v.drivetrain]}
                         onRemove={() => remove(v.id)}
                       />
