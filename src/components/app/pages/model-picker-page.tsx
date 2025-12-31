@@ -96,7 +96,7 @@ function DraggableVehicleCard({
   market,
   onAdd
 }: {
-  v: Awaited<ReturnType<typeof listVehicles>>['items'][number]
+  v: Awaited<ReturnType<typeof listVehicles>>[number]
   market: Market
   onAdd: () => void
 }) {
@@ -141,14 +141,14 @@ function DraggableVehicleCard({
 
             <div className="mt-3 flex flex-wrap gap-1.5">
               <Badge variant="accent">{v.powertrain}</Badge>
-              {v.rangeKm ? <Badge>Range {v.rangeKm} km</Badge> : <Badge>Range —</Badge>}
-              <Badge>MSRP {formatCurrency(v.msrp, market)}</Badge>
+              {v.specs.rangeKm ? <Badge>Range {v.specs.rangeKm} km</Badge> : <Badge>Range —</Badge>}
+              <Badge>MSRP {formatCurrency(v.pricing.msrp, market)}</Badge>
             </div>
 
             <div className="mt-4 grid grid-cols-3 gap-3">
-              <Kpi label="0–100" value={`${v.zeroToHundred.toFixed(1)}s`} />
-              <Kpi label="Power" value={`${v.horsepower} hp`} />
-              <Kpi label="Weight" value={`${formatNumber(v.curbWeightKg)} kg`} />
+              <Kpi label="0–100" value={`${v.specs.zeroToHundred.toFixed(1)}s`} />
+              <Kpi label="Power" value={`${v.specs.horsepower} hp`} />
+              <Kpi label="Weight" value={`${formatNumber(v.specs.curbWeightKg)} kg`} />
             </div>
 
             <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
@@ -156,7 +156,7 @@ function DraggableVehicleCard({
                 <Sparkles className="h-3.5 w-3.5" />
                 Hover for snapshot
               </div>
-              <div className="mono-num">Txn {formatCurrency(v.transactionEstimate, market)}</div>
+              <div className="mono-num">Txn {formatCurrency(v.pricing.transactionEstimate, market)}</div>
             </div>
           </div>
         </HoverCardTrigger>
@@ -170,10 +170,10 @@ function DraggableVehicleCard({
             <Badge variant="accent">{v.powertrain}</Badge>
           </div>
           <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-            <Spec label="Battery" value={v.batteryKwh ? `${v.batteryKwh} kWh` : '—'} />
-            <Spec label="Torque" value={`${v.torqueNm} Nm`} />
-            <Spec label="Dimensions" value={`${v.lengthMm}×${v.widthMm}×${v.heightMm} mm`} />
-            <Spec label="Incentives" value={formatCurrency(v.incentives, market)} />
+            <Spec label="Battery" value={v.specs.batteryKwh ? `${v.specs.batteryKwh} kWh` : '—'} />
+            <Spec label="Torque" value={`${v.specs.torqueNm} Nm`} />
+            <Spec label="Dimensions" value={`${v.specs.lengthMm}×${v.specs.widthMm}×${v.specs.heightMm} mm`} />
+            <Spec label="Incentives" value={formatCurrency(v.pricing.incentives, market)} />
           </div>
           <div className="mt-3 rounded-md border border-border bg-muted/40 p-2">
             <div className="text-xs font-medium">Packages</div>
@@ -235,7 +235,7 @@ export function ModelPickerPage() {
     useSensor(KeyboardSensor)
   )
 
-  const items = data?.items ?? []
+  const items = data ?? []
 
   function onDragEnd(e: DragEndEvent) {
     if (!e.over) return

@@ -24,7 +24,7 @@ import {
   ColumnDef,
   ColumnOrderState,
   ColumnPinningState,
-  ColumnVisibilityState,
+  VisibilityState,
   flexRender,
   getCoreRowModel,
   useReactTable
@@ -64,7 +64,7 @@ export function ProductDataPage() {
     }))
   }, [vehicles])
 
-  const [columnVisibility, setColumnVisibility] = React.useState<ColumnVisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [columnOrder, setColumnOrder] = React.useState<ColumnOrderState>([])
   const [columnPinning, setColumnPinning] = React.useState<ColumnPinningState>({ left: ['attr'], right: [] })
 
@@ -436,17 +436,42 @@ function cellClass(best: boolean) {
 
 function buildSpecRows(vehicles: VehicleByMarket[], market: Market): Row[] {
   const metrics: Array<Omit<Extract<Row, { type: 'metric' }>, 'values'> & { get: (v: VehicleByMarket) => number | string | null }>= [
-    { section: 'Pricing', label: 'MSRP', key: 'msrp', unit: 'Local currency', direction: 'low', get: (v) => v.pricing[market].msrp, spark: true },
-    { section: 'Pricing', label: 'Transaction estimate', key: 'txn', unit: 'After typical discounts', direction: 'low', get: (v) => v.pricing[market].transactionEstimate },
-    { section: 'Battery & Range', label: 'WLTP Range', key: 'rangeKm', unit: 'km', direction: 'high', get: (v) => v.specs.rangeKm ?? null, spark: true },
-    { section: 'Battery & Range', label: 'Battery size', key: 'batteryKwh', unit: 'kWh', direction: 'high', get: (v) => v.specs.batteryKwh ?? null },
-    { section: 'Performance', label: 'Horsepower', key: 'hp', unit: 'hp', direction: 'high', get: (v) => v.specs.horsepower },
-    { section: 'Performance', label: 'Torque', key: 'torque', unit: 'Nm', direction: 'high', get: (v) => v.specs.torqueNm },
-    { section: 'Performance', label: '0–100', key: 'zeroToHundred', unit: 'seconds', direction: 'low', get: (v) => v.specs.zeroToHundred },
-    { section: 'Dimensions', label: 'Curb weight', key: 'weight', unit: 'kg', direction: 'low', get: (v) => v.specs.curbWeightKg },
-    { section: 'Dimensions', label: 'Length', key: 'length', unit: 'mm', direction: 'high', get: (v) => v.specs.lengthMm },
-    { section: 'Dimensions', label: 'Width', key: 'width', unit: 'mm', direction: 'high', get: (v) => v.specs.widthMm },
-    { section: 'Dimensions', label: 'Height', key: 'height', unit: 'mm', direction: 'high', get: (v) => v.specs.heightMm }
+    { type: 'metric', section: 'Pricing', label: 'MSRP', key: 'msrp', unit: 'Local currency', direction: 'low', get: (v) => v.pricing[market].msrp, spark: true },
+    {
+      type: 'metric',
+      section: 'Pricing',
+      label: 'Transaction estimate',
+      key: 'txn',
+      unit: 'After typical discounts',
+      direction: 'low',
+      get: (v) => v.pricing[market].transactionEstimate
+    },
+    {
+      type: 'metric',
+      section: 'Battery & Range',
+      label: 'WLTP Range',
+      key: 'rangeKm',
+      unit: 'km',
+      direction: 'high',
+      get: (v) => v.specs.rangeKm ?? null,
+      spark: true
+    },
+    {
+      type: 'metric',
+      section: 'Battery & Range',
+      label: 'Battery size',
+      key: 'batteryKwh',
+      unit: 'kWh',
+      direction: 'high',
+      get: (v) => v.specs.batteryKwh ?? null
+    },
+    { type: 'metric', section: 'Performance', label: 'Horsepower', key: 'hp', unit: 'hp', direction: 'high', get: (v) => v.specs.horsepower },
+    { type: 'metric', section: 'Performance', label: 'Torque', key: 'torque', unit: 'Nm', direction: 'high', get: (v) => v.specs.torqueNm },
+    { type: 'metric', section: 'Performance', label: '0–100', key: 'zeroToHundred', unit: 'seconds', direction: 'low', get: (v) => v.specs.zeroToHundred },
+    { type: 'metric', section: 'Dimensions', label: 'Curb weight', key: 'weight', unit: 'kg', direction: 'low', get: (v) => v.specs.curbWeightKg },
+    { type: 'metric', section: 'Dimensions', label: 'Length', key: 'length', unit: 'mm', direction: 'high', get: (v) => v.specs.lengthMm },
+    { type: 'metric', section: 'Dimensions', label: 'Width', key: 'width', unit: 'mm', direction: 'high', get: (v) => v.specs.widthMm },
+    { type: 'metric', section: 'Dimensions', label: 'Height', key: 'height', unit: 'mm', direction: 'high', get: (v) => v.specs.heightMm }
   ]
 
   const rows: Row[] = []

@@ -15,6 +15,7 @@ export type VehicleListItem = {
   segment: VehicleByMarket['segment']
   specs: VehicleByMarket['specs']
   pricing: VehicleByMarket['pricing'][Market]
+  packages: VehicleByMarket['packages']
   highlights: {
     volumeL12M: number
     efficiencyIndex: number
@@ -88,6 +89,7 @@ export async function listVehicles(query: VehicleQuery, opts?: { errorOdds?: num
       segment: v.segment,
       specs: v.specs,
       pricing: v.pricing[market],
+      packages: v.packages,
       highlights: {
         volumeL12M: last12mVolume(v.id, market),
         efficiencyIndex
@@ -138,8 +140,7 @@ export async function getVehiclesByIds(ids: string[], market: Market, failureRat
 
   const found = ids
     .map((id) => VEHICLES.find((v) => v.id === id))
-    .filter(Boolean)
-    .map((v) => vehicleSummaryFromBase(v as VehicleByMarket, market))
+    .filter(Boolean) as VehicleByMarket[]
 
   return found
 }

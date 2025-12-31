@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
 import { safeLocalStorage } from '@/lib/store/storage'
 
@@ -43,11 +43,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'aurum-auth',
-      storage: {
-        getItem: (name) => safeLocalStorage().getItem(name),
-        setItem: (name, value) => safeLocalStorage().setItem(name, value),
-        removeItem: (name) => safeLocalStorage().removeItem(name)
-      }
+      storage: createJSONStorage(() => safeLocalStorage())
     }
   )
 )

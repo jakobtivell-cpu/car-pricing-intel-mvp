@@ -355,7 +355,7 @@ export function StrategicPricingPage() {
                         </Badge>
                       </div>
                       <div className="mt-2 text-xs text-muted-foreground">
-                        MSRP {formatCurrency(v.msrp, market)} • {v.powertrain} • {v.bodyType}
+                        MSRP {formatCurrency(v.pricing[market].msrp, market)} • {v.powertrain} • {v.bodyType}
                       </div>
                     </div>
                   ))}
@@ -376,7 +376,7 @@ function buildMetricMatrix(vehicles: any[], market: any) {
   const accel = vehicles.map((v) => v.specs.zeroToHundred ?? 0)
   const power = vehicles.map((v) => v.specs.horsepower ?? 0)
   const features = vehicles.map((v) => (v.packages?.length ?? 0) + (v.options?.length ?? 0))
-  const price = vehicles.map((v) => v.msrp ?? 0)
+  const price = vehicles.map((v) => v.pricing[market].msrp ?? 0)
 
   return { idToIndex, range, accel, power, features, price }
 }

@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
 import type { Market } from '@/lib/models'
 import { safeLocalStorage } from '@/lib/store/storage'
@@ -17,11 +17,7 @@ export const useMarketStore = create<MarketState>()(
     }),
     {
       name: 'aurum-market',
-      storage: {
-        getItem: (name) => safeLocalStorage().getItem(name),
-        setItem: (name, value) => safeLocalStorage().setItem(name, value),
-        removeItem: (name) => safeLocalStorage().removeItem(name)
-      }
+      storage: createJSONStorage(() => safeLocalStorage())
     }
   )
 )

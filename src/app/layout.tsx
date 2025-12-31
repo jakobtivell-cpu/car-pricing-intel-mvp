@@ -1,12 +1,7 @@
 import './globals.css'
 
 import type { Metadata } from 'next'
-import { Inter, JetBrains_Mono } from 'next/font/google'
-
 import { Providers } from '@/components/app/providers'
-
-const sans = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
-const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'AurumIQ — Car Pricing Intelligence',
@@ -30,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="color-scheme" content="light" />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className={`${sans.variable} ${mono.variable} font-sans antialiased`}>
+      <body className="font-sans antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>

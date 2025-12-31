@@ -299,7 +299,9 @@ export function TacticalPricingPage() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <div className="truncate text-sm font-medium">{v.brand} {v.model}</div>
-                      <div className="mt-0.5 text-xs text-muted-foreground">{v.trim} • MSRP {formatCurrency(v.msrp, market)}</div>
+                      <div className="mt-0.5 text-xs text-muted-foreground">
+                        {v.trim} • MSRP {formatCurrency(v.pricing[market].msrp, market)}
+                      </div>
                     </div>
                     <Badge variant={idx >= 8 ? 'warning' : idx >= 4 ? 'accent' : 'default'} className="mono-num">
                       {idx}
