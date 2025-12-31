@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --radius: 14px;
+  /* Fallbacks (should be overridden by a theme) */
+  --bg: 0 0% 100%;
+  --fg: 222 47% 11%;
+  --muted: 220 20% 96%;
+  --muted-foreground: 220 9% 46%;
+  --card: 0 0% 100%;
+  --border: 220 13% 91%;
+  --accent: 221 83% 53%;
+  --accent-foreground: 0 0% 100%;
+  --accent-2: 160 84% 39%;
+  --success: 142 71% 45%;
+  --warning: 38 92% 50%;
+  --danger: 0 84% 60%;
+
+  --chart-1: 221 83% 53%;
+  --chart-2: 160 84% 39%;
+  --chart-3: 262 83% 58%;
+  --chart-4: 31 93% 55%;
+  --chart-5: 0 84% 60%;
+  --chart-6: 198 93% 60%;
+}
+
+:root[data-theme='office'] {
+  --bg: 220 25% 98%;
+  --fg: 222 47% 11%;
+  --muted: 220 20% 96%;
+  --muted-foreground: 220 9% 46%;
+  --card: 0 0% 100%;
+  --border: 220 13% 90%;
+
+  /* restrained enterprise accents */
+  --accent: 221 83% 53%;
+  --accent-foreground: 0 0% 100%;
+  --accent-2: 218 20% 45%;
+
+  --success: 142 71% 36%;
+  --warning: 38 92% 46%;
+  --danger: 0 84% 56%;
+
+  /* calmer chart palette */
+  --chart-1: 221 83% 53%;
+  --chart-2: 210 40% 46%;
+  --chart-3: 262 45% 52%;
+  --chart-4: 31 70% 52%;
+  --chart-5: 0 64% 52%;
+  --chart-6: 198 55% 52%;
+}
+
+:root[data-theme='colorful'] {
+  --bg: 220 25% 98%;
+  --fg: 222 47% 11%;
+  --muted: 220 20% 96%;
+  --muted-foreground: 220 9% 46%;
+  --card: 0 0% 100%;
+  --border: 220 13% 90%;
+
+  /* richer accents, calm surfaces */
+  --accent: 262 83% 58%;
+  --accent-foreground: 0 0% 100%;
+  --accent-2: 160 84% 39%;
+
+  --success: 142 71% 36%;
+  --warning: 38 92% 46%;
+  --danger: 0 84% 56%;
+
+  /* expressive chart palette */
+  --chart-1: 262 83% 58%;
+  --chart-2: 160 84% 39%;
+  --chart-3: 221 83% 53%;
+  --chart-4: 31 93% 55%;
+  --chart-5: 0 84% 60%;
+  --chart-6: 198 93% 60%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: hsl(var(--bg));
+  color: hsl(var(--fg));
+}
+
+::selection {
+  background: hsl(var(--accent) / 0.18);
+}
+
+/* Better default focus ring across themes */
+:focus-visible {
+  outline: none;
+}
+
+@layer components {
+  .focus-ring {
+    @apply focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
+  }
+
+  .card-surface {
+    @apply rounded-lg border border-border bg-card shadow-card;
+  }
+
+  .mono-num {
+    @apply font-mono tabular-nums;
+  }
+}
+
+/* Dialog / sheet micro-interactions (no extra animation plugin needed) */
+.dialog-overlay {
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+.dialog-overlay[data-state='open'] {
+  opacity: 1;
+}
+
+.dialog-content.sheet-right {
+  transform: translateX(100%);
+  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.dialog-content.sheet-right[data-state='open'] {
+  transform: translateX(0);
+}
+
+.dialog-content.sheet-bottom {
+  transform: translateY(100%);
+  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.dialog-content.sheet-bottom[data-state='open'] {
+  transform: translateY(0);
+}
+
+.dialog-content.dialog-center {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.96);
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+.dialog-content.dialog-center[data-state='open'] {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
